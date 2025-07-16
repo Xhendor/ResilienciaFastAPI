@@ -1,0 +1,53 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+      http:
+
+processors:
+  batch:
+    timeout: 1s
+    send_batch_size: 1024
+
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 512
+    spike_limit_mib: 100
+
+extensions:
+  health_check: {}
+  pprof:
+    endpoint: 0.0.0.0:1777
+  zpages:
+    endpoint: 0.0.0.0:55679
+
+service:
+  extensions: [health_check, pprof, zpages]
+  pipelines:
+    traces:
+      receivers: [otlp]
+      processors: [batch, memory_limiter]
+      exporters: [logging, jaeger, prometheus]
+    metrics:
+      receivers: [otlp]
+      processors: [batch, memory_limiter]
+      exporters: [logging, prometheus]
+    logs:
+      receivers: [otlp]
+      processors: [batch, memory_limiter]
+      exporters: [logging]
+
+exporters:
+  logging:
+    loglevel: debug
+  
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+    namespace: "automoviles"
+    const_labels:
+      service: "automoviles-service"
+    
+  jaeger:
+    endpoint: "jaeger:14250"
+    tls:
+      insecure: true
