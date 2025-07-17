@@ -158,4 +158,3 @@ Con environment
 
 Sin licencia a quien le interese usarlo para aprender. 
 
-Enlace del Proyecto: [https://github.com/tuusuario/resiliencia-fastapi](https://github.com/tuusuario/resiliencia-fastapi)
