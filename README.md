@@ -147,8 +147,13 @@ Para ejecutar las pruebas:
 
 ```bash
 pytest
-```
 
+```
+Con environment
+```bash
+
+.\.venv\Scripts\activate; python -m pytest tests/ -v
+```
 ## Licencia
 
 Sin licencia a quien le interese usarlo para aprender. 
